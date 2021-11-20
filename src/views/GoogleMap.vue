@@ -542,7 +542,7 @@ export default defineComponent({
 
 		const callback = (result: any, status: any) => {
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
-				console.log('result data -->', result)
+				console.log('GET RESULT DATA -->', result)
 			}
 		}
 
