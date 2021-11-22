@@ -2,13 +2,15 @@
     <el-container class="container">
         <el-header class="header">
             <el-row>
-                <el-col class="logo">
+                <el-col
+                    class="logo">
                     <img
                         alt="Google Maps logo"
                         class="google-map-logo"
                         src="../assets/google-map-logo-2.png" />
                 </el-col>
-                <el-col class="slot-head">
+                <el-col
+                    class="slot-head">
                     <slot name="header"/>
                 </el-col>
             </el-row>
@@ -62,22 +64,12 @@ export default defineComponent({
             align-items: center;
             display: flex;
         }
-        .home-link, .google-map-link {
-            text-align: center;
-            color: #ffffff;
-            font-weight: 700;
-            cursor: pointer;
-            max-width: 150px;
-        }
-        .home-link:hover, .google-map-link:hover {
-            background: #0051ff;
-        }
     }
     .aside {
         background-color: #ffffff;
         color: var(--el-text-color-primary);
         text-align: left;
-        padding: 10px 10px 10px 20px;
+        padding: 10px;
         height: 865px;
         width: 500px;
     }
@@ -86,10 +78,6 @@ export default defineComponent({
         color: var(--el-text-color-primary);
         height: 865px;
         padding: unset;
-        .title {
-            font-size: 20px;
-            font-weight: 700;
-        }
     }
 }
 
