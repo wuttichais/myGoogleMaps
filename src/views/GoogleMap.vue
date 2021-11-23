@@ -22,70 +22,79 @@
 					<el-button
 						type="warning"
 						class="btn-init-map"
-						@click="initMapGoogle">S</el-button>
+						@click="initMapGoogle">
+							<fa
+								icon="search-location"
+								size="lg" />
+						</el-button>
 				</el-col>
 				<el-col :span="2">
 					<el-button
 						type="danger"
 						class="btn-geo-location"
-						@click="geoLocation">S</el-button>
+						@click="geoLocation">
+							<fa
+								icon="crosshairs"
+								size="lg" />
+						</el-button>
 				</el-col>
 			</el-row>
 		</template>
 		<template
 			v-if="!isPlaceDetail"
 			#aside>
-			<el-row class="category-text">
-				<el-col :span="24">
-					<span>Search this area with: 
-						<el-popover
-							v-model:visible="visibleSearchArea"
-							trigger="manual"
-							placement="right"
-							:width="350">
-							<el-row>
-								<el-col
-									:span="15"
-									style="display: flex; align-items: center;">
-									<span>Search this area with: <span style="font-weight: 700; color: #006eff;">{{ categorySearchLabel }}</span></span>
-								</el-col>
-								<el-col :span="9">
-									<el-button
-										size="mini"
-										type="text"
-										@click="visibleSearchArea = false">cancel</el-button>
-									<el-button
-										type="primary"
-										size="mini"
-										@click="visibleSearchArea = false, getPlaceService(categorySearchLabel, categorySearchValue)">confirm</el-button>
-								</el-col>
-							</el-row>
-							<template #reference>
-								<el-tag
-									size="small"
-									effect="dark">{{ categorySearchLabel }}</el-tag>
-									<!-- <el-button @click="visible = true">Delete</el-button> -->
-							</template>
-						</el-popover>
-					</span>
-				</el-col>
-			</el-row>
-			<el-row
-				class="category-search">
-				<el-col
-					v-for="(item, index) in categorySearchList"
-					:key="`item-${index}`"
-					:span="4"
-					class="category-col">
-					<el-button
-						type="info"
-						size="medium"
-						class="btn-category"
-						plain
-						@click="getPlaceService(item.label, item.value)">{{ item.label }}</el-button>
-				</el-col>
-			</el-row>
-			<el-divider></el-divider>
+			<div class="category">
+				<el-row class="category-text">
+					<el-col :span="24">
+						<span>Search this area with: 
+							<el-popover
+								v-model:visible="visibleSearchArea"
+								trigger="manual"
+								placement="right"
+								:width="350">
+								<el-row>
+									<el-col
+										:span="15"
+										style="display: flex; align-items: center;">
+										<span>Search this area with: <span style="font-weight: 700; color: #006eff;">{{ categorySearchLabel }}</span></span>
+									</el-col>
+									<el-col :span="9">
+										<el-button
+											size="mini"
+											type="text"
+											@click="visibleSearchArea = false">cancel</el-button>
+										<el-button
+											type="primary"
+											size="mini"
+											@click="visibleSearchArea = false, getPlaceService(categorySearchLabel, categorySearchValue)">confirm</el-button>
+									</el-col>
+								</el-row>
+								<template #reference>
+									<el-tag
+										size="small"
+										effect="dark">{{ categorySearchLabel }}</el-tag>
+								</template>
+							</el-popover>
+						</span>
+					</el-col>
+				</el-row>
+				<el-row
+					class="category-search">
+					<el-col
+						v-for="(item, index) in categorySearchList"
+						:key="`item-${index}`"
+						:span="4"
+						class="category-col">
+						<el-button
+							type="info"
+							size="medium"
+							class="btn-category"
+							plain
+							@click="getPlaceService(item.label, item.value)">{{ item.label }}</el-button>
+					</el-col>
+				</el-row>
+				<el-divider></el-divider>
+			</div>
 			<el-row
 				class="listview"
 				v-for="(item, index) in locationList"
@@ -159,8 +168,7 @@
 		v-model="showDialogError"
 		title="Notice"
 		width="380px"
-		:show-close="false"
-	>
+		:show-close="false">
 		<p>{{ errorMessage }}</p>
 		<p>Please allow access to your location.</p>
 		<span>
@@ -170,11 +178,11 @@
 				target="_blank">https://support.google.com</el-link>
 		</span>
 		<template #footer>
-		<span class="dialog-footer">
-			<el-button
-				type="primary"
-				@click="showDialogError = false">OK</el-button>
-		</span>
+			<span class="dialog-footer">
+				<el-button
+					type="primary"
+					@click="showDialogError = false">OK</el-button>
+			</span>
 		</template>
 	</el-dialog>
 </template>
@@ -187,6 +195,12 @@ import PlaceDetail from '@/components/googlemaps/PlaceDetail.vue'
 
 declare const google: any
 
+interface CategorySearchListI {
+	id: number,
+	label: string,
+	value: string
+}
+
 export default defineComponent({
 	name: 'GoogleMap',
 	components: {
@@ -194,15 +208,15 @@ export default defineComponent({
 		PlaceDetail,
 	},
 	setup() {
-		const latitude = ref<number>(18.7470863)
-		const longitude = ref<number>(98.9576578)
-		const locationList = ref([])
-		const googleMap = ref(null)
+		const latitude = ref<number>(18.7717874)
+		const longitude = ref<number>(98.9742796)
+		const locationList = ref<any[]>([])
+		const googleMap = ref<any>(null)
 		const showDialogError = ref<boolean>(false)
 		const errorMessage = ref<string>('')
 		const isPlaceDetail = ref<boolean>(false)
 		const placeId = ref<string>('')
-		const categorySearchList = ref([
+		const categorySearchList = ref<CategorySearchListI[]>([
 			{ id: 1, label: 'Cafe', value: 'cafe' },
 			{ id: 2, label: 'Bar', value: 'bar' },
 			{ id: 3, label: 'Atm', value: 'atm' },
@@ -230,13 +244,12 @@ export default defineComponent({
 			// await loader.load()
 			const map = new google.maps.Map(googleMap.value, {
 				center: mapPosition.value,
-				zoom: 15,
+				zoom: 16,
 			})
 
 			new google.maps.Marker({
 				position: mapPosition.value,
 				map,
-				
 			})
 
 			map.addListener('center_changed', () => {
@@ -270,12 +283,12 @@ export default defineComponent({
 			// await loader.load()
 			const map = new google.maps.Map(googleMap.value, {
 				center: mapPosition.value,
-				zoom: 15,
+				zoom: 16,
 			})
 
 			const req = {
 				location: mapPosition.value,
-				radius: '1000',
+				radius: '500',
 				types: [value]
 			}
 
@@ -310,6 +323,11 @@ export default defineComponent({
 						item['placePhotos'] = item.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})
 					}
 				})
+
+				locationList.value.sort((a: any, b: any) => 
+					(a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
+				)
+
 				map.addListener('center_changed', () => {
 					if (visibleSearchArea.value === false) {
 						visibleSearchArea.value = true
@@ -327,7 +345,7 @@ export default defineComponent({
 			placeId.value = item.place_id
 			const map = new google.maps.Map(googleMap.value, {
 				center: mapPosition.value,
-				zoom: 17
+				zoom: 16
 			})
 			const infoWindow = new google.maps.InfoWindow()
 			const marker = new google.maps.Marker({
@@ -381,19 +399,26 @@ export default defineComponent({
 		width: 50px;
 	}
 }
-.category-text {
-	font-size: 14px;
-	font-weight: 700;
-	margin-left: 20px;
-}
-.category-search {
-	margin-top: 15px;
-	padding-left: 20px;
-	.category-col {
-		margin-right: 13px;
+.category {
+	position: sticky;
+	top: 0;
+	z-index: 999;
+	background: #ffffff;
+	.category-text {
+		font-size: 14px;
+		font-weight: 700;
+		margin-left: 20px;
+		padding-top: 15px;
 	}
-	.btn-category {
-		width: 70px;
+	.category-search {
+		margin-top: 15px;
+		padding-left: 20px;
+		.category-col {
+			margin-right: 13px;
+		}
+		.btn-category {
+			width: 70px;
+		}
 	}
 }
 .listview {

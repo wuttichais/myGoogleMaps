@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "@googlemaps/js-api-loader": "^1.12.9",
     "@mdi/font": "^6.5.95",
     "axios": "^0.24.0",

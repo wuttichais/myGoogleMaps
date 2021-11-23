@@ -69,7 +69,7 @@ export default defineComponent({
         background-color: #ffffff;
         color: var(--el-text-color-primary);
         text-align: left;
-        padding: 10px;
+        padding: 0px 10px 10px 10px;
         height: 865px;
         width: 500px;
     }
